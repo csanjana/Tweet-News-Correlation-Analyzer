@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Social Media based Review Analysis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" >
+    <link rel="stylesheet" type="text/css" href="styles/styles.css" >
+    <link rel="stylesheet" type="text/css" href="styles/custom.css" />
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="styles/jqcloud.css" />
+    <link rel="stylesheet" type="text/css" href="styles/easyui.css">
+    <link rel="stylesheet" type="text/css" href="styles/icon.css">
+
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/d3.v3.min.js"></script>
+    <script type="text/javascript" src="scripts/Donut3D.js"></script>
+    <script type="text/javascript" src="scripts/jqcloud-1.0.4.min.js"></script>
+</head>
+<body>
+<div id="doc" class="yui-t7">
+    <div id="hd">
+        <div id="header"><h1>Social Media based Review Analysis</h1></div>
+    </div>
+    <div class="yui-b">
+      <div id="primary">
+          <div class="container">
+            <div class="col-sm-12">
+                Enter topic: <input type="search" name="topic" id="topic" value="iphone6">
+            </div>
+            <div class="col-sm-12">
+                Enter URL: <input type="search" name="url" id="url" value="https://www.apple.com/iphone-6/"> <button class="btn btn-danger" id="urlSearch">Search</button>
+            </div>
+            <div class="row" id="summary"></div>
+        </div>
+      </div>
+    </div>
+    <div id="bd">
+    <div id="yui-main">
+      <div class="yui-b">
+        <div class="yui-g">
+          <div class="yui-u first">
+            <div class="content"><div id='dashboard' style="border: 1px solid #ccc;! important"></div></div>
+          </div>
+          <div class="yui-u">
+            <div class="content"><div id="my_favorite_latin_words" style="width: 100%; height: 100%; border: 1px solid #ccc;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="yui-b">
+      <div id="secondary"><div id="tt" class="easyui-tabs" style="width:100%;height:100%;" rownumbers="true" fitColumns="true"></div></div>
+    </div>
+  </div>
+  <div id="ft">
+    <div id="footer">UIUC</div>
+  </div>
+</div>
+<script type="text/javascript" src="scripts/controller.js"></script>
+</body>
+</html>

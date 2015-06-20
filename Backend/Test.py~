@@ -1,0 +1,65 @@
+from flask import Flask, render_template
+from newspaper import Article
+import json
+from flask.ext.cors import CORS
+from elasticsearch import Elasticsearch
+import urllib2
+import urllib
+import json
+app = Flask(__name__)
+cors = CORS(app)
+
+@app.route("/parseNews/<topic>/<url>")
+def parseNews(topic, url):
+    print("Inside hello method")
+    print topic
+    # url = 'http://www.theguardian.com/technology/live/2015/mar/09/apple-watch-macbook-launch-event-smartwatch-spring-forward'
+    # url = 'http:~~www.theguardian.com~technology~live~2015~mar~09~apple-watch-macbook-launch-event-smartwatch-spring-forward'
+    url = url.replace('~', '/')
+    article = Article(url)
+    article.download()
+    article.parse()
+    text = article.text
+    article.nlp()
+    art_keywords = article.keywords
+    art_summary = article.summary
+    # print text
+    print art_summary
+    # print art_keywords
+    get_tweets(topic, art_keywords)
+    # return ''.join(art_keywords)
+    return json.dumps(art_keywords)
+
+
+def getSentiment(tweet):
+    url = 'http://text-processing.com/api/sentiment/'
+    values = {'text' : tweet.encode('ascii', 'ignore').decode('utf-8')}
+    data = urllib.urlencode(values)
+    response = urllib2.urlopen(url, data)
+    parsed_result = json.loads(response.read())
+    sentiment = parsed_result["label"]
+    return sentiment
+
+
+def get_tweets(topic, keywords):
+    print "======Inside get tweets======="
+    print topic, keywords
+    index_name = str(topic)+'_index'
+    es = Elasticsearch()
+
+    for keyword in keywords:
+        word = str(keyword)
+        print "The word is"+ str(type(word))
+        print word
+        query = '{"query": {"match": {"text": "'+word+'"}}}'
+        print query
+        res = es.search(index=index_name, body=query)
+
+        for rec in res['hits']['hits']:
+            tweet = rec['_source']['text']
+            sentiment = getSentiment(tweet)
+            print(sentiment + '-' + tweet)
+
+if __name__ == "__main__":
+    app.debug = True
+    app.run()
